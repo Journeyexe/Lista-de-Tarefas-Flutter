@@ -37,6 +37,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   final String _key = 'myData';
   late List<String> _data = [];
   late String titleKey;
+  late String appBarTitle;
 
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     final arguments =
         ModalRoute.of(context)?.settings.arguments as AddTaskScreenArguments?;
     if (arguments != null) {
+      appBarTitle = arguments.isEditing? 'Editar tarefa' : 'Adicionar tarefa';
       titleKey = arguments.title;
       _titleController.text = arguments.title;
       _descriptionController.text = arguments.description;
@@ -83,7 +85,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Adicionar tarefa'),
+      appBar: CustomAppBar(title: appBarTitle),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
