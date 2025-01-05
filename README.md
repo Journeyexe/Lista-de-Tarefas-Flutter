@@ -11,7 +11,7 @@ Este é um aplicativo Flutter que permite aos usuários criar, visualizar, edita
 
 ## Estrutura de Pastas
 ```
-atividade_1/
+Lista-de-Tarefas-Flutter/
 ├── lib/
 │   ├── data/
 │   │   └── models/
@@ -20,7 +20,8 @@ atividade_1/
 │   │   ├── add_task_screen.dart
 │   │   └── home_screen.dart
 │   ├── widgets/
-│   │   └── custom_app_bar.dart
+│   │   ├── custom_app_bar.dart
+│   │   └── textbox.dart
 │   └── main.dart
 ├── pubspec.yaml
 └── README.md
@@ -31,11 +32,11 @@ atividade_1/
 1. Certifique-se de ter o Flutter instalado. Se não, siga as instruções em [flutter.dev](https://flutter.dev/docs/get-started/install).
 2. Clone este repositório:
    ```bash
-   git clone https://github.com/seu-usuario/atividade_1.git
+   git clone https://github.com/Journeyexe/Lista-de-Tarefas-Flutter
    ```
 3. Navegue até o diretório do projeto:
    ```bash
-   cd atividade_1
+   cd Lista-de-Tarefas-Flutter
    ```
 4. Instale as dependências:
    ```bash
@@ -56,7 +57,6 @@ atividade_1/
 ## Dependências
 - `flutter`: SDK principal do Flutter.
 - `shared_preferences`: Para armazenar e recuperar dados localmente.
-- `go_router`: Para gerenciar a navegação entre as telas.
 
 ## Contribuição
 1. Fork este repositório.
