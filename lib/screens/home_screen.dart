@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:atividade_1/data/models/task_model.dart';
 import 'package:atividade_1/screens/add_task_screen.dart';
 import 'package:atividade_1/widgets/custom_app_bar.dart';
+import 'package:atividade_1/widgets/delete_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,24 +37,60 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<TaskModel> _getTasks() {
-    return _data!.map((taskString) {
+    return (_data ?? []).map((taskString) {
       Map<String, dynamic> taskMap = jsonDecode(taskString);
       return TaskModel.fromMap(taskMap);
     }).toList();
   }
 
-  Future<void> _delete(value) async {
+  Future<void> _delete(task) async {
     setState(() {
-      _data!.remove(value);
+      // _prefs.remove(_key);
+      _data!.remove(task);
     });
     await _prefs.setStringList(_key, _data?.toList() ?? []);
+  }
+
+  Future<void> _changeStatus(task, value) async {
+    final int index = _tasks.indexOf(task);
+    if (index != -1) {
+      _tasks[index].isDone = value;
+      _data![index] = jsonEncode(_tasks[index].toJson());
+      await _prefs.setStringList(_key, _data!.toList());
+    }
+  }
+
+  void _showPopup(BuildContext context, TaskModel item) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return DeleteDialog(
+          item: item,
+        );
+      },
+    );
+
+    if (result != null && result) {
+      _delete(jsonEncode(item.toJson()));
+      _initializePreferences();
+      snackBar();
+    }
+  }
+
+  void snackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Tarefa deletada com sucesso!'),
+        showCloseIcon: true,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: 'Lista de atividades',
+        title: 'Lista de tarefas',
         isHomePage: true,
       ),
       body: SingleChildScrollView(
@@ -61,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - kToolbarHeight,
+              height: MediaQuery.of(context).size.height * .8,
               child: ListView.separated(
                 itemCount: _tasks.length,
                 itemBuilder: (context, index) {
@@ -74,8 +111,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           width: 250,
                           child: ListTile(
-                            title: Text(item.title),
-                            subtitle: Text(item.description),
+                            leading: Checkbox(
+                              value: item.isDone,
+                              onChanged: (value) {
+                                _changeStatus(item, value);
+                                _initializePreferences();
+                              },
+                            ),
+                            title: Text(
+                              item.title,
+                              style: TextStyle(
+                                color: item.isDone ? Colors.grey : Colors.black,
+                              ),
+                            ),
+                            subtitle: Text(
+                              item.description,
+                              style: TextStyle(
+                                color: item.isDone ? Colors.grey : Colors.black,
+                              ),
+                            ),
                           ),
                         ),
                         Padding(
@@ -115,10 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: IconButton(
-                                  onPressed: () {
-                                    _delete(jsonEncode(item.toJson()));
-                                    _initializePreferences();
-                                  },
+                                  onPressed: () => _showPopup(context, item),
                                   icon: const Icon(
                                     Icons.delete,
                                     color: Colors.white,
@@ -139,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

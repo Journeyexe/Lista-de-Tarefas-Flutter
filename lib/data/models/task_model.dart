@@ -1,16 +1,19 @@
 class TaskModel {
   final String title;
   final String description;
+  late bool isDone;
 
   TaskModel({
     required this.title,
     required this.description,
+    this.isDone = false,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'title': title,
       'description': description,
+      'isDone': isDone,
     };
   }
 
@@ -18,6 +21,7 @@ class TaskModel {
     return TaskModel(
       title: map['title'],
       description: map['description'],
+      isDone: map['isDone'],
     );
   }
 }

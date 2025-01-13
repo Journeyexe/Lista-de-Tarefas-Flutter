@@ -93,13 +93,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         child: Column(
           children: [
             Textbox(
-                placeholder: 'Titulo da tarefa', controller: _titleController),
+              placeholder: 'Titulo da tarefa',
+              controller: _titleController,
+            ),
             const SizedBox(
               height: 16,
             ),
             Textbox(
-                placeholder: 'Descrição da tarefa',
-                controller: _descriptionController),
+              placeholder: 'Descrição da tarefa',
+              controller: _descriptionController,
+              description: true,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Divider(
