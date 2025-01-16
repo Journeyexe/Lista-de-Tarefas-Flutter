@@ -121,13 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             title: Text(
                               item.title,
                               style: TextStyle(
-                                color: item.isDone ? Colors.grey : Colors.black,
+                                color: item.isDone ? Colors.grey : null,
                               ),
                             ),
                             subtitle: Text(
                               item.description,
                               style: TextStyle(
-                                color: item.isDone ? Colors.grey : Colors.black,
+                                color: item.isDone ? Colors.grey : null,
                               ),
                             ),
                           ),

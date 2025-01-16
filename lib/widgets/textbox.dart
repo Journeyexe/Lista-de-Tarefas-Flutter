@@ -13,11 +13,9 @@ class Textbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late int maxLines;
-    description ? maxLines = 10 : maxLines = 1;
     return TextFormField(
       controller: controller,
-      maxLines: maxLines,
+      maxLines: description? 10 : 1,
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.grey[300],
