@@ -131,6 +131,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Insira um titulo'),
+                      showCloseIcon: true,
                     ),
                   );
                 }
